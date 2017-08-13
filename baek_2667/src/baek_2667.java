@@ -1,3 +1,8 @@
+/*
+ * 2017.08.13
+ * baek_2667 : dfs, bfs
+ * @author : gonjong
+ */
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -63,6 +68,10 @@ public class baek_2667 {
 		
 	}
 	
+	/*
+	 * map에 있는 것을 바꾸지 말고
+	 * visit 이용해서 하는 게 더 깔끔?
+	 */
 	void dfs(int r, int c) {
 		map[r][c] = num;
 		cnt++;
