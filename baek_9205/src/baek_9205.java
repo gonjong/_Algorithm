@@ -1,4 +1,13 @@
+/*
+ * 2017.08.20
+ * BaekJoon 9205 : dfs, bfs
+ * @author gonjong
+ * 문제 파악 제대로 : 맨해튼 거리/유클리드 거리
+ * 답 출력 happy, sad 대소문자 정확히!!
+ */
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class baek_9205 {
@@ -32,24 +41,50 @@ public class baek_9205 {
 			rPos = new pos(sc.nextInt(), sc.nextInt());
 			
 			canGo(sPos.x, sPos.y);
+//			bfscanGo();
 			if(!happy) {
-				System.out.println("bad");
-			}	
+				System.out.println("sad");
+			}
+			else {
+				System.out.println("happy");
+			}
+		}
+		
+	}
+	
+	void bfscanGo() {
+		Queue<pos> q= new LinkedList<pos>();
+		
+		q.add(sPos);
+		
+		while(!q.isEmpty()) {
+			
+			pos curr = q.poll();
+			
+			if(Math.abs(curr.x-rPos.x) + Math.abs(curr.y-rPos.y)<=1000.0) {
+				happy = true;
+				break;
+			}
+			
+			for(int i=0; i<pPos.size();i++) {
+				if(!pPos.get(i).visit && (Math.abs(curr.x-pPos.get(i).x) + Math.abs(curr.y-pPos.get(i).y)<=1000.0)) {
+					pPos.get(i).visit = true;
+					q.add(pPos.get(i));
+				}
+			}
+			
 		}
 		
 	}
 	
 	void canGo(int x, int y) {
-		if(Math.sqrt((x-rPos.x)*(x-rPos.x)
-				+(y-rPos.y)*(y-rPos.y))<=1000.0) {
-			System.out.println("Happy");
+		if(Math.abs(x-rPos.x) + Math.abs(y-rPos.y)<=1000.0) {
 			happy = true;
 			return;
 		}
 		
 		for(int i=0; i<pPos.size(); i++) {
-			if(!pPos.get(i).visit && Math.sqrt((x-pPos.get(i).x)*(x-pPos.get(i).x)
-					+(y-pPos.get(i).y)*(y-pPos.get(i).y))<=1000.0) {
+			if(!pPos.get(i).visit && (Math.abs(x-pPos.get(i).x) + Math.abs(y-pPos.get(i).y)<=1000.0)) {
 				pPos.get(i).visit = true;
 				canGo(pPos.get(i).x, pPos.get(i).y);
 			}
@@ -58,7 +93,7 @@ public class baek_9205 {
 
 }
 
-class pos{
+class pos {
 	int x;
 	int y;
 	boolean visit = false;
