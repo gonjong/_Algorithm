@@ -8,12 +8,10 @@ Do not use file input and output
 Please be very careful. 
  */
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 /*
@@ -56,34 +54,73 @@ public class Solution {
 			wordList = new HashMap<Character, ArrayList<String>>();
 			checkWord = new HashMap<String, String>();
 			check = new HashMap<String, String>();
-			Answer = 5001;
+			Answer = 0;
 			cnt = 0;
 			N = sc.nextInt();
 			String ss = sc.next();
 
-			find(ss, 0);
+			Find(ss, 0);
 			System.out.println("Case #"+(test_case+1));
-			if(Answer==5001) {
-				Answer = 0;
-			}
+			
 			System.out.println(Answer);
 		}
 	}
-	
-	void find(String s, int index) {
+
+	void Find(String s, int index) {
+
+		boolean hasWord = false;
 		
+		if(index == s.length()) {
+			if(cnt==1) {
+				cnt = 0;
+			}
+			Answer = cnt;
+			return;
+		}
+		
+		int lastIndex = s.lastIndexOf(s.charAt(index));
+		int range = s.length()-lastIndex-1;
+
+		if(lastIndex == index) {
+			return;
+		}
+		
+		
+		int i=lastIndex;
+		for(; i>=index+1; i--) {
+			hasWord = false;
+			int j=1;
+			for(; j<=range+(lastIndex-i)+1; j++) {
+				if(s.substring(index, index+j).equals(s.substring(i, i+j))) {
+					hasWord = true;
+					continue;
+				}
+				else
+					break;
+			}
+			if(hasWord) {
+				cnt++;
+				Find(s, i+j-1);	
+				cnt--;	
+			}
+		}
+		
+	}
+
+	void find(String s, int index) {
+
 		if(index == s.length()) {
 			Answer = cnt;
 			return ;
 		}
-		
+
 		for(int i=s.length(); i>index; i--){
 			if(Answer!=5001) {
 				return;
 			}
 			boolean isWord = false;
 			for(int j=1; j<=(i-index)/2;j++) {
-				
+
 				if(s.substring(index, index+j).equals(s.substring(i-j, i))) {
 					isWord = true;
 					break;
@@ -94,7 +131,7 @@ public class Solution {
 				find(s, i);
 				cnt--;
 			}
-			
+
 		}	
 	}
 	/*
@@ -158,11 +195,11 @@ public class Solution {
 				}
 
 				String x = word.get(word.size()-1);
-				
+
 				if(x.length()==1) {
 					continue;
 				}
-				
+
 				if(x.charAt(0)==x.charAt(x.length()-1)) {
 					if(!check.containsKey(x)) {
 						ww.add(x);	
@@ -230,5 +267,15 @@ public class Solution {
 		}
 
 	}
-*/
+	 */
+}
+
+class pos {
+	int index;
+	int cnt;
+
+	pos(int index, int cnt){
+		this.index = index;
+		this.cnt = cnt;
+	}
 }
