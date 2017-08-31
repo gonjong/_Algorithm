@@ -7,6 +7,7 @@
  * union : find값끼리 결합
  * find : 루트까지 올라가서 반환
  * 두번빼 방식은 왜 안되는 걸까..?
+ * 
  */
 import java.util.ArrayList;
 import java.util.Arrays;
