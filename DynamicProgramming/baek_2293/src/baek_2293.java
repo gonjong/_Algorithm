@@ -5,6 +5,7 @@
  * 배열을 1차원으로도 작성해보기.
  */
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class baek_2293 {
@@ -17,9 +18,47 @@ public class baek_2293 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		new baek_2293().sol();
+		new baek_2293().solution();
 	}
 
+	void solution() {
+		Scanner sc = new Scanner(System.in);
+		
+		n = sc.nextInt();
+		k = sc.nextInt();
+		c = new int[n+1];
+		int dp[] = new int[10001];
+		
+		for(int i=1; i<=n; i++) {
+			c[i] = sc.nextInt();
+		}
+		dp[0] = 1;
+		
+		//바깥 반복문이 코인에 대한 것이 되어야 함
+		//하나의 코인 종류에 대해서 모든 k까지 갈 수 있는 경우의 수 계산 후
+		//다음 코인에 대해 반복적으로 실시
+		
+		for(int i=1; i<=n; i++) {
+			for(int j=0; j<=k; j++) {
+				if(j-c[i]>=0) {
+					dp[j] += dp[j-c[i]];
+				}
+			}
+		}
+		System.out.println(dp[k]);
+		
+		Arrays.fill(dp, 0);
+		dp[0] = 1;
+		for(int i=1; i<=k; i++) {
+			for(int j=0; j<=n; j++) {
+				if(i-c[j]>=0) {
+					dp[i] += dp[i-c[j]];
+				}
+			}
+		}
+		System.out.println(dp[k]);
+	}
+	
 	void sol() {
 		
 		Scanner sc = new Scanner(System.in);
